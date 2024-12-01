@@ -244,7 +244,7 @@ quiet_cmd_u-boot-spl = LD      $@
       cmd_u-boot-spl = cd $(obj) && $(LD) $(LDFLAGS) $(LDFLAGS_$(@F)) \
 		       $(patsubst $(obj)/%,%,$(u-boot-spl-init)) --start-group \
 		       $(patsubst $(obj)/%,%,$(u-boot-spl-main)) --end-group \
-		       $(PLATFORM_LIBS) -Map $(SPL_BIN).map -o $(SPL_BIN)
+		       $(patsubst nand_sunxi/%, ../nand_sunxi/%, $(PLATFORM_LIBS)) -Map $(SPL_BIN).map -o $(SPL_BIN)
 
 $(obj)/$(SPL_BIN): $(u-boot-spl-init) $(u-boot-spl-main) $(obj)/u-boot-spl.lds
 	$(call cmd,u-boot-spl)
@@ -256,7 +256,7 @@ $(u-boot-spl-dirs):
 	$(Q)$(MAKE) $(build)=$@
 
 quiet_cmd_cpp_lds = LDS     $@
-cmd_cpp_lds = $(CPP) -Wp,-MD,$(depfile) $(cpp_flags) $(LDPPFLAGS) -ansi \
+cmd_cpp_lds = $(CPP) -Wp,-MD,$(depfile) $(cpp_flags) $(LDPPFLAGS) \
 		-D__ASSEMBLY__ -x assembler-with-cpp -P -o $@ $<
 
 $(obj)/u-boot-spl.lds: $(LDSCRIPT) FORCE
