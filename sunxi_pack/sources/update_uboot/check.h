@@ -39,7 +39,7 @@
 extern __s32 check_file   ( __u32 *mem_base, __u32 size, const char *magic );
 extern __s32 gen_check_sum( void *boot_buf );
 
-
+__s32 check_magic( __u32 *mem_base, const char *magic );
 
 
 

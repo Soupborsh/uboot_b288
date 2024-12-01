@@ -19,6 +19,8 @@ int  align_size;
 void *script_file_decode(char *script_name);
 int merge_uboot(char *source_uboot_name, char *script_name);
 
+int align_uboot(char *source_uboot_name);
+
 int update_for_uboot(char *uboot_name);
 
 int IsFullName(const char *FilePath)
