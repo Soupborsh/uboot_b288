@@ -273,7 +273,7 @@ int splittoc1(char *toc1 )
 			goto splittoc1_out;
 	}
 	toc1_head = (sbrom_toc1_head_info_t *)body ;
-	item_head = body + sizeof(sbrom_toc1_head_info_t);
+	item_head = (sbrom_toc1_item_info_t *)(body + sizeof(sbrom_toc1_head_info_t));
 	cnt = toc1_head->items_nr;
 	offset = (sizeof(sbrom_toc1_head_info_t) + cnt* sizeof(sbrom_toc1_item_info_t) + 1023) & (~1023);
 
