@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CHIP=sun8iw10p1
-CROSS_COMPILE=${CROSS_COMPILE:-/home/eink/gcc-linaro-arm-linux-gnueabi/bin/arm-linux-gnueabi-}
+CROSS_COMPILE=${CROSS_COMPILE:-/mnt/mediafiles/Media/Code/SDK/gcc/gcc-linaro-4.9-2015.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-}
 KERNEL=$PWD/../kernel-b288
 SYSCONFIG=sunxi_pack/sys_config.fex
 REF_BOOT0=sunxi_pack/boot0_reference

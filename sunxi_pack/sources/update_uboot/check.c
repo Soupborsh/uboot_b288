@@ -29,6 +29,7 @@
 */
 #include "check.h"
 #include "spare_head.h"
+#include <string.h>
 
 //#pragma arm section  code="check_magic"
 /********************************************************************************

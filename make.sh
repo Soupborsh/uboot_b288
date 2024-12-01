@@ -13,7 +13,7 @@ OUT_UBOOT=u-boot.img
 if [ "$USER" = "jenkins" ] ;
 then
         KERNEL=$PWD/../kernel_${target}
-        CROSS_PREFIX="/usr/local/gcc-4.9.2-arm-linux-gnueabihf/bin/arm-linux-gnueabihf-"
+        CROSS_PREFIX="/mnt/mediafiles/Media/Code/SDK/gcc/gcc-linaro-4.9-2015.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-"
 else
         if [ -z $1 ] ; then 
 		echo "please, target should be specified as first param"
@@ -26,7 +26,7 @@ else
         KERNEL=$PWD/../kernel-b288
 
 #       CROSS_PREFIX="/opt/freescale/usr/local/gcc-4.4.4-glibc-2.11.1-multilib-1.0/arm-fsl-linux-gnueabi/bin/arm-fsl-linux-gnueabi-"
-        CROSS_PREFIX="/opt/freescale/usr/local/arm-linux-gnueabihf-4.9.2/bin/arm-linux-gnueabihf-"
+        CROSS_PREFIX="/mnt/mediafiles/Media/Code/SDK/gcc/gcc-linaro-4.9-2015.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-"
 #       CROSS_PREFIX="/home/eink/gcc-linaro-arm-linux-gnueabi/bin/arm-linux-gnueabi-"
 fi
 
@@ -52,10 +52,10 @@ fi
 
 # rebuild boot0 and u-boot 
 
-make distclean
-make ${CHIP}_config                       || exit 1
-make CROSS_COMPILE=${CROSS_PREFIX} boot0 || exit 1
-make CROSS_COMPILE=${CROSS_PREFIX}       || exit 1
+make distclean -j$(nproc)
+make ${CHIP}_config -j$(nproc)           || exit 1
+make CROSS_COMPILE=${CROSS_PREFIX} -j$(nproc) boot0 || exit 1
+make CROSS_COMPILE=${CROSS_PREFIX} -j$(nproc)       || exit 1
 
 #build various sunxi tools
 
