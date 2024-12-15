@@ -6,7 +6,7 @@ cd "$(cd "$(dirname "$0")" && pwd)"
 
 
 CHIP=sun8iw10p1
-REF_BOOT0=sunxi_pack/boot0_reference
+REF_BOOT0=sunxi_pack/boot0_reference_pb618
 OUT_BOOT0=boot0.img
 OUT_UBOOT=u-boot.img
 
@@ -89,7 +89,7 @@ cp ../u-boot.bin .u-boot.bin                         || exit 1
 # compile dtb image
 
 $DTC_COMPILER -O dtb -o .${CHIP}.dtb -b 0 -i $DTC_SRC_PATH -F .sys_config.tmp -d $DTC_DEP_FILE $DTC_SRC_FILE >/dev/null || exit 1
-
+echo "\n\n$(DTC_SRC_FILE)\n\n"
 # create boot package understood by boot0
 
 cat >.boot_package.cfg <<EOF
@@ -102,7 +102,7 @@ EOF
 ./dragonsecboot -pack .boot_package.cfg || exit 1
 mv boot_package.fex ../$OUT_UBOOT || exit 1
 
-rm -f .* 2>/dev/null
+# rm -f .* 2>/dev/null
 exit 0
 
 # dd if=u-boot.img of=/dev/mmcblk0 bs=512 seek=24576
