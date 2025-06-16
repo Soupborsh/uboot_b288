@@ -908,8 +908,12 @@ int axp22x_check_voltage(void)
 				return 0;
 			}
 		} else {
-			printf("VBAT=%d, charging\n", vbat);
-			delaycnt = 30;
+			if (vbat == 0) {
+				printf("VBAT=%d Probably powered other way\n", vbat);
+			} else {
+				printf("VBAT=%d, charging\n", vbat);
+			}
+			delaycnt = 2;
 		}
 		inp = reg_istat & ((1 << 7) | (1 << 5));
 		if (! inp) {
@@ -921,6 +925,8 @@ int axp22x_check_voltage(void)
 		}
 		__msdelay(250);
 		ledon = 1 - ledon;
+		return 0;
 	}
+	return 0;
 }
 
