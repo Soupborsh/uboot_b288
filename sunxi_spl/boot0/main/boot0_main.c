@@ -42,7 +42,7 @@ extern const boot0_file_head_t  BT0_head;
 static int boot0_clear_env(void);
 static void update_uboot_info(__u32 dram_size);
 
-//static int check_update_key(int key_value);
+static int check_update_key(int key_value);
 
 int axp22x_check_voltage(void);
 int set_ddr_voltage(int set_vol);
@@ -116,7 +116,7 @@ void main( void )
 	if (! sstandby)  dprintf("HELLO ;) BOOT0 is starting!\n");
 	debug_enable = 1;
 	//dprintf("boot0 commit : %s \n",boot0_hash_value);
-	//uart_input_value = set_debugmode_flag();
+	uart_input_value = set_debugmode_flag();
 	sunxi_key_init();
 #ifdef	SUNXI_OTA_TEST
 	print_ota_test();
@@ -148,16 +148,7 @@ void main( void )
 
 	//set_ddr_voltage(1350);
 
-	//detect step1: rtc
-	fel_flag = rtc_region_probe_fel_flag();
-	if(fel_flag == SUNXI_RUN_EFEX_FLAG)
-	{
-		rtc_region_clear_fel_flag();
-		printf("eraly jump fel\n");
-		goto __boot0_entry_err0;
-	}
-
-#if 0
+#if 1
 
 	//detect ste2: uart input
 	if (uart_input_value == '2') {
@@ -193,6 +184,15 @@ void main( void )
 	printf("DRAM: %d\n", dram_size);
 
 	mmu_setup(dram_size);
+
+	//detect step1: rtc
+	fel_flag = rtc_region_probe_fel_flag();
+	if(fel_flag == SUNXI_RUN_EFEX_FLAG)
+	{
+		rtc_region_clear_fel_flag();
+		printf("eraly jump fel\n");
+		goto __boot0_entry_err0;
+	}
 
 	//load boot1
 	status = load_boot1();
@@ -287,7 +287,7 @@ static void update_uboot_info(__u32 dram_size)
 #define   KEY_DELAY_EACH_TIME    (40)
 #define   KEY_MAX_COUNT_GO_ON    ((KEY_DELAY_MAX * 1000)/(KEY_DELAY_EACH_TIME))
 
-#if 0
+#if 1
 static int check_update_key(int key_value)
 {
 	int time_tick = 0;
